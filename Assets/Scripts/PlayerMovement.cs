@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -13,12 +14,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     float maxSpeed = 10f;
     [SerializeField]
-    float jumpForce = 10f;
+    public float jumpForce = 10f;
 
     private BoxCollider2D _box;
     public bool grounded = false;
 
-    string playerNumber = "0";
+    public string playerNumber = "0";
+
+    bool jumpButtonDown = false;
+    float moveHor = 0f;
     
 
     // Start is called before the first frame update
@@ -36,10 +40,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+  /*  private void Update()
     {
-        float direction = Input.GetAxis("HorizontalPlayer" + playerNumber)* Time.deltaTime*100f;
+        jumpButtonDown = false;
+
+        if (Input.GetButtonDown("JumpPlayer" + playerNumber))
+        {
+            jumpButtonDown = true;
+        }
+        moveHor = Input.GetAxis("HorizontalPlayer" + playerNumber) * Time.deltaTime * 100f;     }
+  */
+    // Update is called once per frame
+    void Update()
+    {
+        float direction = Input.GetAxis("HorizontalPlayer" + playerNumber) * Time.deltaTime * 100f; ;
 
         Vector3 max = _box.bounds.max;
         Vector3 min = _box.bounds.min;
@@ -62,14 +76,21 @@ public class PlayerMovement : MonoBehaviour
         {
             direction = direction * (movementAccel / 2f);
         }
-
-
-        _body.velocity = new Vector2(Mathf.Clamp(direction, -maxSpeed, maxSpeed), _body.velocity.y);
-
         if (grounded && Input.GetButtonDown("JumpPlayer" + playerNumber))
         {
-            _body.AddForce(Vector2.up * jumpForce,ForceMode2D.Impulse);
+            Jump(1);
         }
+
+            _body.velocity = new Vector2(Mathf.Clamp(direction, -maxSpeed, maxSpeed), _body.velocity.y);
+
+
     }
+
+    public void Jump(float forceMultiplier)
+    {
+        _body.AddForce(Vector2.up * jumpForce*forceMultiplier, ForceMode2D.Impulse);
+    }
+
+
 
 }
