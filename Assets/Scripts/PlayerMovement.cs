@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 min = _box.bounds.min;
         Vector2 corner1 = new Vector2(max.x-0.2f, min.y - .1f);
         Vector2 corner2 = new Vector2(min.x - 0.2f, min.y - .2f);
-        Collider2D hit = Physics2D.OverlapArea(corner1, corner2);
+        Collider2D hit = Physics2D.OverlapArea(corner1, corner2, 9);
         grounded = false;
 
 
