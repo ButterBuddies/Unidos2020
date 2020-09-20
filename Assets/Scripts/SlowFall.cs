@@ -15,7 +15,7 @@ public class SlowFall : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         _pbody = GetComponent<Rigidbody2D>();
     }
-    /*
+    
     private void Update()
     {
         jumpButtonDown = false;
@@ -29,7 +29,7 @@ public class SlowFall : MonoBehaviour
         {
             jumpButtonUp =true;
         }
-    }*/
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -38,18 +38,19 @@ public class SlowFall : MonoBehaviour
         {
             StopCoroutine(Fall());
         }
-       else if (Input.GetButtonDown("JumpPlayer" + movement.playerNumber))
+       else if (jumpButtonDown)
         {
 
                 _pbody.velocity /= 4f;
                 _pbody.gravityScale = 0.1f;
                 StartCoroutine(Fall());
-
+            jumpButtonDown = false;
         }
 
-        if (Input.GetButtonUp("JumpPlayer" + movement.playerNumber))
+        if (jumpButtonUp)
         {
             _pbody.gravityScale = 1f;
+            jumpButtonUp = false;
         }
     }
 

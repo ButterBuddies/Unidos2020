@@ -39,19 +39,17 @@ public class PlayerMovement : MonoBehaviour
             playerNumber = "2";
         }
     }
-
-  /*  private void Update()
+    
+    // Update is called once per frame
+    private void Update()
     {
-        jumpButtonDown = false;
-
-        if (Input.GetButtonDown("JumpPlayer" + playerNumber))
+        if (grounded && Input.GetButtonDown("JumpPlayer" + playerNumber))
         {
             jumpButtonDown = true;
         }
-        moveHor = Input.GetAxis("HorizontalPlayer" + playerNumber) * Time.deltaTime * 100f;     }
-  */
-    // Update is called once per frame
-    void Update()
+    }
+
+    void FixedUpdate()
     {
         float direction = Input.GetAxis("HorizontalPlayer" + playerNumber) * Time.deltaTime * 100f; ;
 
@@ -59,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 min = _box.bounds.min;
         Vector2 corner1 = new Vector2(max.x-0.2f, min.y - .1f);
         Vector2 corner2 = new Vector2(min.x - 0.2f, min.y - .2f);
-        Collider2D hit = Physics2D.OverlapArea(corner1, corner2, 9);
+        Collider2D hit = Physics2D.OverlapArea(corner1, corner2,9);
         grounded = false;
 
 
@@ -76,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
         {
             direction = direction * (movementAccel / 2f);
         }
-        if (grounded && Input.GetButtonDown("JumpPlayer" + playerNumber))
+        if (jumpButtonDown)
         {
             Jump(1);
         }
@@ -89,6 +87,7 @@ public class PlayerMovement : MonoBehaviour
     public void Jump(float forceMultiplier)
     {
         _body.AddForce(Vector2.up * jumpForce*forceMultiplier, ForceMode2D.Impulse);
+        jumpButtonDown = false;
     }
 
 

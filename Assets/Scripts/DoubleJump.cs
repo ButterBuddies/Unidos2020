@@ -18,7 +18,7 @@ public class DoubleJump : MonoBehaviour
         movement.jumpForce *= 0.75f;
     }
 
-    /*
+ 
     private void Update()
     {
         jumpButtonDown = false;
@@ -27,24 +27,25 @@ public class DoubleJump : MonoBehaviour
         {
             jumpButtonDown = true;
         }
-    }*/
+    }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (movement.grounded)
         {
             doubleJump = true;
         }
 
-        if (Input.GetButtonDown("JumpPlayer" + movement.playerNumber))
+        if (jumpButtonDown)
         {
 
             if (!movement.grounded&&doubleJump)
             {
-                movement.Jump(1.5f);
+                movement.Jump(1.25f);
                 doubleJump = false;
             }
+            jumpButtonDown = false;
         }
     }
 }
