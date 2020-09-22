@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     Rigidbody2D _body;
+    Animator _anim;
+    SpriteRenderer _rend;
 
     [SerializeField]
     bool player1 = true;
@@ -23,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     bool jumpButtonDown = false;
     float moveHor = 0f;
+
     
 
     // Start is called before the first frame update
@@ -30,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
     {
         _body = GetComponent<Rigidbody2D>();
         _box = GetComponent<BoxCollider2D>();
+        _anim = GetComponent<Animator>();
+        _rend = GetComponent<SpriteRenderer>();
         if (player1)
         {
             playerNumber = "1";
@@ -45,25 +50,46 @@ public class PlayerMovement : MonoBehaviour
     {
         if (grounded && Input.GetButtonDown("JumpPlayer" + playerNumber))
         {
-            jumpButtonDown = true;
+            jumpButtonDown = true; 
         }
     }
 
     void FixedUpdate()
     {
-        float direction = Input.GetAxis("HorizontalPlayer" + playerNumber) * Time.deltaTime * 100f; ;
+        float direction = Input.GetAxis("HorizontalPlayer" + playerNumber) * Time.deltaTime * 100f;
+
+        if (direction < 0)
+        {
+            _anim.SetBool("Run",true);
+            _rend.flipX = false;
+        }
+        else if(direction >0)
+        {
+            _anim.SetBool("Run", true);
+            _rend.flipX = true;
+        }
+        else
+        {
+            _anim.SetBool("Run", false);
+        }
 
         Vector3 max = _box.bounds.max;
         Vector3 min = _box.bounds.min;
         Vector2 corner1 = new Vector2(max.x-0.2f, min.y - .1f);
         Vector2 corner2 = new Vector2(min.x - 0.2f, min.y - .2f);
         Collider2D hit = Physics2D.OverlapArea(corner1, corner2,9);
-        grounded = false;
+        
 
 
         if (hit != null)
         {
             grounded = true;
+            _anim.SetBool("Grounded", true);
+        }
+        else
+        {
+            grounded = false;
+            _anim.SetBool("Grounded", false);
         }
 
         if (grounded)
