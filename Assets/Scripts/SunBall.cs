@@ -46,6 +46,7 @@ public class SunBall : MonoBehaviour
                 break;
             case "Floor": touchFloor = true;
                 StartCoroutine(FloorPunt());
+                _body.AddForce(_body.velocity * 2f, ForceMode2D.Impulse);
                 break;
         }
 
@@ -57,6 +58,7 @@ public class SunBall : MonoBehaviour
         {
             case "Floor":
                 touchFloor = false;
+                StopCoroutine(FloorPunt());
                 break;
         }
     }
@@ -69,7 +71,7 @@ public class SunBall : MonoBehaviour
             yield return new WaitForSeconds(1.25f);
             if (touchFloor)
             {
-                _body.AddForce(Vector2.up, ForceMode2D.Impulse);
+                _body.AddForce(Vector2.up*5f, ForceMode2D.Impulse);
             }
         }
     }

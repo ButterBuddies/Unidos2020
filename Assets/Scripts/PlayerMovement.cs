@@ -110,6 +110,7 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+
     public void Jump(float forceMultiplier)
     {
         _body.AddForce(Vector2.up * jumpForce*forceMultiplier, ForceMode2D.Impulse);
