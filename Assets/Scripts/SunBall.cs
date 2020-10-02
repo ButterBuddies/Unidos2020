@@ -6,7 +6,9 @@ public class SunBall : MonoBehaviour
 {
     public bool falling = false;
 
+    public bool start = false;
     Rigidbody2D _body;
+    GoalScript goalScript;
 
     [SerializeField]
     float maxSpeed = 10f;
@@ -16,12 +18,20 @@ public class SunBall : MonoBehaviour
     void Start()
     {
         _body = GetComponent<Rigidbody2D>();
+        goalScript = FindObjectOfType<GoalScript>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        _body.velocity = new Vector2(Mathf.Clamp(_body.velocity.x, -maxSpeed, maxSpeed), Mathf.Clamp(_body.velocity.y, -maxSpeed, maxSpeed));
+        if (start)
+        {
+            _body.velocity = new Vector2(Mathf.Clamp(_body.velocity.x, -maxSpeed, maxSpeed), Mathf.Clamp(_body.velocity.y, -maxSpeed, maxSpeed));
+        }
+        else
+        {
+            _body.velocity = Vector2.zero;
+        }
         
     }
 
@@ -30,6 +40,14 @@ public class SunBall : MonoBehaviour
         switch (collision.gameObject.tag)
         {
             case "Player":
+                if (collision.gameObject.GetComponent<PlayerMovement>().player1)
+                {
+                    goalScript.lastHit = 1;
+                }
+                else
+                {
+                    goalScript.lastHit = 2;
+                }
                 if (collision.gameObject.GetComponent<PlayerMovement>().grounded)
                 {
                     Rigidbody2D _colbod = collision.gameObject.GetComponent<Rigidbody2D>();
@@ -68,7 +86,7 @@ public class SunBall : MonoBehaviour
     {
         if(touchFloor)
         {
-            yield return new WaitForSeconds(1.25f);
+            yield return new WaitForSeconds(0.5f);
             if (touchFloor)
             {
                 _body.AddForce(Vector2.up*5f, ForceMode2D.Impulse);

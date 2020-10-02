@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     SpriteRenderer _rend;
 
     [SerializeField]
-    bool player1 = true;
+    public bool player1 = true;
     [SerializeField]
     float movementAccel = 3f;
     [SerializeField]
@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
 
     private BoxCollider2D _box;
     public bool grounded = false;
+    public bool start = false;
 
     public string playerNumber = "0";
 
@@ -48,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (grounded && Input.GetButtonDown("JumpPlayer" + playerNumber))
+        if (grounded && Input.GetButtonDown("JumpPlayer" + playerNumber)&&start)
         {
             jumpButtonDown = true; 
         }
@@ -75,8 +76,8 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 max = _box.bounds.max;
         Vector3 min = _box.bounds.min;
-        Vector2 corner1 = new Vector2(max.x-0.2f, min.y - .1f);
-        Vector2 corner2 = new Vector2(min.x - 0.2f, min.y - .2f);
+        Vector2 corner1 = new Vector2(max.x-0.2f, min.y - .5f);
+        Vector2 corner2 = new Vector2(min.x - 0.2f, min.y - .5f);
         Collider2D hit = Physics2D.OverlapArea(corner1, corner2,9);
         
 
@@ -104,8 +105,10 @@ public class PlayerMovement : MonoBehaviour
         {
             Jump(1);
         }
-
-            _body.velocity = new Vector2(Mathf.Clamp(direction, -maxSpeed, maxSpeed), _body.velocity.y);
+        if (start)
+        {
+            _body.velocity = new Vector2(Mathf.Clamp(direction, -maxSpeed, maxSpeed), Mathf.Clamp(_body.velocity.y,-maxSpeed*10f,maxSpeed*10f));
+        }
 
 
     }

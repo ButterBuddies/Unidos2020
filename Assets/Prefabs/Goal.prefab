@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1941565622363333133}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.11, y: 7.67, z: 0}
-  m_LocalScale: {x: 8, y: 51.95, z: 1}
+  m_LocalScale: {x: 15, y: 15, z: 1}
   m_Children:
   - {fileID: 488789807836383852}
   - {fileID: 5882743706884445154}
@@ -73,8 +73,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.8301887, g: 0.63999873, b: 0, a: 1}
+  m_Sprite: {fileID: -3585806293644955464, guid: f8421f0bc92781341bf2b8337a7ebf7f,
+    type: 3}
+  m_Color: {r: 0.97531974, g: 1, b: 0.6037736, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -94,6 +95,7 @@ GameObject:
   m_Component:
   - component: {fileID: 435800715528149879}
   - component: {fileID: 173968748}
+  - component: {fileID: 84474407}
   m_Layer: 0
   m_Name: goal bound (1)
   m_TagString: Untagged
@@ -109,7 +111,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2508592367170049228}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.0575, z: 0}
+  m_LocalPosition: {x: -0, y: 0.2, z: 0}
   m_LocalScale: {x: 1, y: 0.24255578, z: 1}
   m_Children: []
   m_Father: {fileID: 8554888530421398903}
@@ -126,11 +128,30 @@ CircleCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.06
+  m_Radius: 0.03
+--- !u!251 &84474407
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508592367170049228}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 180
+  m_UseOneWay: 0
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 1
+  m_SideArc: 1
 --- !u!1 &3123144047810852314
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,6 +162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5882743706884445154}
   - component: {fileID: 1487997810}
+  - component: {fileID: 1000465448}
   m_Layer: 0
   m_Name: goal bound
   m_TagString: Untagged
@@ -156,7 +178,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3123144047810852314}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -0.0569, z: 0}
+  m_LocalPosition: {x: -0, y: -0.21, z: 0}
   m_LocalScale: {x: 1, y: 0.24255578, z: 1}
   m_Children: []
   m_Father: {fileID: 8554888530421398903}
@@ -173,11 +195,30 @@ CircleCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.06
+  m_Radius: 0.03
+--- !u!251 &1000465448
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3123144047810852314}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 0
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 1
+  m_SideArc: 1
 --- !u!1 &6212305555759872585
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +246,7 @@ Transform:
   m_GameObject: {fileID: 6212305555759872585}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.44568297, z: 1}
+  m_LocalScale: {x: 0.2, y: 3.57, z: 1}
   m_Children: []
   m_Father: {fileID: 8554888530421398903}
   m_RootOrder: 0
