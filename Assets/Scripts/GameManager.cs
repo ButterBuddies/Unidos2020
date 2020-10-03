@@ -14,11 +14,21 @@ public class GameManager : MonoBehaviour
 
     Vector2 wins = new Vector2(0, 0);
 
+    AudioSource source;
+
+    public AudioClip arena, fast;
+    public AudioClip[] catWin;
+    public AudioClip[] catLose;
+    public AudioClip[] quetzWin;
+    public AudioClip[] quetzLose;
+    public AudioClip crowdCheer;
+
+    [SerializeField]
     int levelNumber = 1;
     bool suddenDeath = false;
     LevelManager levelManager;
 
-    float timeRemaining = 120f;
+    float timeRemaining = 90f;
     //Awake is called when the object is activated, before when the scene is loaded
     private void Awake()
     {
@@ -37,11 +47,16 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         levelManager = FindObjectOfType<LevelManager>();
+        source = GetComponent<AudioSource>();
+        source.clip = arena;
+        source.Play();
         levelManager.timerText.text = (int)(timeRemaining / 60) + ":";
         if ((int)((timeRemaining % 60) - 1) < 10)
             levelManager.timerText.text += "0";
         levelManager.timerText.text += (int)((timeRemaining % 60) - 1);
-        StartCoroutine(StartRound());
+        levelManager.splashAnim.SetBool("Action", true);
+        levelManager.splashAnim.Play("Start");
+        StartCoroutine(IntroDelay());
     }
 
     private void Update()
@@ -72,6 +87,9 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
+                    source.clip = fast;
+                    source.Play();
+                    suddenDeath = true;
                     levelManager.goalText.color = Color.white;
                     levelManager.goalText.text = "SUDDEN DEATH";
                     StartCoroutine(ResetDelay());
@@ -82,23 +100,47 @@ public class GameManager : MonoBehaviour
 
     void CheckWin()
     {
+        Results();
         if (wins.x >= 2 || wins.y >= 2)
         {
-            Debug.Log("Won");
+
+            StartCoroutine(WinDelay());
         }
         else
         {
+
              StartCoroutine(NewLevelDelay());
         }
 
 
     }
+
+    void Results()
+    {
+        startTimer = false;
+        suddenDeath = false;
+        if (score.x > score.y)
+        {
+            levelManager.splashAnim.SetBool("CatWin", false);
+            levelManager.quip.volume = 0.9f;
+            levelManager.quip.pitch = 1f;
+            levelManager.quip.PlayOneShot(quetzWin[Random.Range(0, quetzWin.Length)]);
+        }
+        else
+        {
+            levelManager.splashAnim.SetBool("CatWin", true);
+            levelManager.quip.volume = 0.9f;
+            levelManager.quip.pitch = 1f;
+            levelManager.quip.PlayOneShot(catWin[Random.Range(0, catWin.Length)]);
+        }
+        levelManager.splashAnim.SetBool("Action", false);
+        levelManager.splashAnim.Play("Start");
+    }
     public void AddScore(int whoScored)
     {
         if (suddenDeath)
         {
-            
-            return;
+            suddenDeath = false;
         }
         if (whoScored == 1)
         {
@@ -116,9 +158,11 @@ public class GameManager : MonoBehaviour
             score.y++;
             levelManager.catScore.text = score.y.ToString();
         }
-     
-            //reset
-            StartCoroutine(ResetDelay());
+        levelManager.quip.volume = 0.65f;
+        levelManager.quip.pitch = Random.Range(0.8f, 1f);
+        levelManager.quip.PlayOneShot(crowdCheer);
+        //reset
+        StartCoroutine(ResetDelay());
     }
 
     IEnumerator ResetDelay()
@@ -129,12 +173,19 @@ public class GameManager : MonoBehaviour
         //StartCoroutine(StartRound());
         levelManager.goalText.gameObject.SetActive(false);
     }
+
+    IEnumerator IntroDelay()
+    {
+        yield return new WaitForSeconds(4f);
+        StartCoroutine(StartRound());
+    }
+
     public IEnumerator StartRound()
     {
         levelManager.goalText.gameObject.SetActive(true);
         levelManager.goalText.color = Color.white;
         levelManager.goalText.text = "READY";
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(1f);
         levelManager.goalText.text = "START";
         yield return new WaitForSeconds(0.75f);
         levelManager.goalText.gameObject.SetActive(false);
@@ -144,19 +195,45 @@ public class GameManager : MonoBehaviour
         levelManager.ball.start = true;
 
     }
+
+    IEnumerator WinDelay()
+    {
+        yield return new WaitForSeconds(3f);
+        if (wins.x < wins.y)
+        {
+            SceneManager.LoadScene("WinCat");
+        }
+        else
+        {
+            SceneManager.LoadScene("WinQuetz");
+        }
+    }
     IEnumerator NewLevelDelay()
     {
-        startTimer = false;
-        suddenDeath = false;
+        
         yield return new WaitForSeconds(4f);
         levelNumber++;
         score = Vector2.zero;
-        timeRemaining = 120f;
+        timeRemaining = 90f;
         SceneManager.LoadScene("Level" + levelNumber.ToString());
         yield return new WaitForSeconds(1f);
+        if (levelNumber != 3)
+        {
+            if (source.clip != arena)
+            {
+                source.clip = arena;
+                source.Play();
+            }
+        }
+        else
+        {
+            source.clip = fast;
+            source.Play();
+        }
         levelManager = FindObjectOfType<LevelManager>();
         levelManager.catScore.text = score.y.ToString();
         levelManager.quetzScore.text = score.x.ToString();
+        StartCoroutine(StartRound());
     }
 
 }

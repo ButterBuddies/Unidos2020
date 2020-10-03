@@ -12,11 +12,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     public bool player1 = true;
     [SerializeField]
-    float movementAccel = 3f;
+    float movementAccel = 6f;
     [SerializeField]
     float maxSpeed = 10f;
-    [SerializeField]
-    public float jumpForce = 10f;
+    public float jumpForce = 30f;
 
     private BoxCollider2D _box;
     public bool grounded = false;
@@ -25,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     public string playerNumber = "0";
 
     bool jumpButtonDown = false;
-    float moveHor = 0f;
+   // float moveHor = 0f;
 
     
 

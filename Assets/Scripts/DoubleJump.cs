@@ -25,6 +25,7 @@ public class DoubleJump : MonoBehaviour
         
         if(Input.GetButtonDown("JumpPlayer" + movement.playerNumber))
         {
+            //_pbody.velocity = Vector2.zero;
             jumpButtonDown = true;
         }
     }
@@ -42,6 +43,7 @@ public class DoubleJump : MonoBehaviour
 
             if (!movement.grounded&&doubleJump)
             {
+                _pbody.velocity = Vector2.zero;
                 movement.Jump(1.25f);
                 doubleJump = false;
             }

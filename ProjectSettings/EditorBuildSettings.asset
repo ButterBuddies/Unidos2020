@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level3.unity
     guid: 62ff14c8eb25c0d488b3cc8980cd3666
+  - enabled: 1
+    path: Assets/Scenes/WinQuetz.unity
+    guid: a5e818475077ad644a3563e6a8826f26
+  - enabled: 1
+    path: Assets/Scenes/WinCat.unity
+    guid: 44e3af98f81afad46b5cff1e14446abb
   m_configObjects: {}

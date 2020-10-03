@@ -11,6 +11,8 @@ public class LevelManager : MonoBehaviour
     public PlayerMovement quetz, cat;
     public Transform startPos1, startPos2, ballStart;
     public SunBall ball;
+    public Animator splashAnim;
+    public AudioSource quip;
 
     public void NewLevel()
     {
